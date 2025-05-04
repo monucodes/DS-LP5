@@ -1,0 +1,52 @@
+# PRACTICAL NO 7 SIMple WEB SERVICE
+
+# CLIENT PROGRAM
+import requests
+
+data = {
+    'a': 20,
+    'b': 10
+}
+
+# Addition
+add_response = requests.post('http://localhost:5000/add', json=data)
+if add_response.status_code == 200:
+    add_result = add_response.json()
+    print("Addition Result:", add_result['result'])
+else:
+    print(f"Addition Error: {add_response.status_code} - {add_response.text}")
+
+# Subtraction
+sub_response = requests.post('http://localhost:5000/sub', json=data)
+if sub_response.status_code == 200:
+    sub_result = sub_response.json()
+    print("Subtraction Result:", sub_result['result'])
+else:
+    print(f"Subtraction Error: {sub_response.status_code} - {sub_response.text}")
+
+
+
+# SERVER PROGRAM 
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+@app.route('/add', methods=['POST'])
+def add():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result = a + b
+    return jsonify({'result': result})
+
+@app.route('/sub', methods=['POST'])
+def sub():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result2 = a - b
+    return jsonify({'result': result2})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
