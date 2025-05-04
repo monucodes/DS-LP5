@@ -1,0 +1,54 @@
+# Practical No 1 Client/Server process using RMI 
+
+#CLIENT PROGRAM
+public class MyClient { 
+    public static void main(String[] args) { 
+        try { 
+            	MyInterface obj = (MyInterface) 
+		java.rmi.Naming.lookup("//localhost/MyRemoteClass"); 
+	        System.out.println(obj.sayHello()); 
+
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
+    } 
+}
+
+# SERVER PROGRAM 
+import java.rmi.Naming;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+
+public class MyServer { 
+    public static void main(String[] args) { 
+        try { 
+            MyInterface obj = new MyRemoteClass(); 
+            Registry registry = LocateRegistry.getRegistry(2001);
+
+            Naming.rebind("//localhost/MyRemoteClass", obj); 
+            System.out.println("MyRemoteClass bound in registry"); 
+        } catch (Exception e) { 
+            System.err.println("MyRemoteClass exception:"); 
+            e.printStackTrace(); 
+        } 
+    } 
+}
+
+# INTERFACE PROGRAM
+public interface MyInterface extends java.rmi.Remote { 
+    public String sayHello() throws java.rmi.RemoteException; 
+}
+
+# MYREMOTE CLASS PROGRAM
+public class MyRemoteClass extends 
+java.rmi.server.UnicastRemoteObject implements MyInterface { 
+    public MyRemoteClass() throws java.rmi.RemoteException { 
+        super(); 
+    } 
+    public String sayHello() throws java.rmi.RemoteException { 
+        return "Hello, world!"; 
+    } 
+} 
