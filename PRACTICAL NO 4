@@ -1,0 +1,20 @@
+# PRACTICAL NO 04 IMPLEMENT OF BERKELEY ALGORITHM
+
+
+def berkeley_algorithm(time_offsets):
+    # Calculate the average time offset
+    avg_offset = sum(time_offsets) / len(time_offsets)
+
+    # Adjust the clocks based on the average
+    adjusted_clocks = [time - avg_offset for time in time_offsets]
+
+    return adjusted_clocks
+
+# Example time offsets (differences from a reference clock)
+time_offsets = [1.2, 0.5, -0.3, 2.1, -1.0]
+
+# Run Berkeley Algorithm
+adjusted_clocks = berkeley_algorithm(time_offsets)
+
+# Print the adjusted clock values
+print("Adjusted clock offsets:", adjusted_clocks)
