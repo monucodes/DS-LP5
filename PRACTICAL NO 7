@@ -27,26 +27,50 @@ else:
 
 
 # SERVER PROGRAM 
+(server code)
+
+Sample1.py
+
 from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+app = Flask(name)
 
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods = ['POST'])
+
 def add():
-    data = request.get_json()
-    a = data['a']
-    b = data['b']
-    result = a + b
-    return jsonify({'result': result})
 
-@app.route('/sub', methods=['POST'])
-def sub():
-    data = request.get_json()
-    a = data['a']
-    b = data['b']
-    result2 = a - b
-    return jsonify({'result': result2})
+data = request.get_json()
+
+a = data['a']
+
+b = data['b']
+
+result = a + b
+
+answer = jsonify({'result':result})
+
+return answer
 
 if __name__ == '__main__':
-    app.run(debug=True)
 
+app.run()
+
+(client code)
+
+Sample2.py
+
+import requests
+
+data = {
+
+'a':10,
+
+'b':20
+
+}
+
+response = requests.post('http://localhost:5000/add', json = data)
+
+result = response.json()
+
+print(result['result'])
